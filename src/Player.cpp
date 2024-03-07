@@ -5,12 +5,12 @@
 
 #include <iostream>
 
-TKS::FlappyPig::Player::Player(sf::Texture& texture)
+TKS::FlappyPig::Player::Player(sf::Texture &texture)
 {
-	this->m_width = { 64 };
-	this->m_height = { 64 };
-	this->m_velocity = { 0 };
-	this->m_lives = { 3 };
+	this->m_width = {64};
+	this->m_height = {64};
+	this->m_velocity = {0};
+	this->m_lives = {3};
 
 	this->m_sprite.setTexture(texture);
 
@@ -20,8 +20,8 @@ TKS::FlappyPig::Player::Player(sf::Texture& texture)
 	this->m_sprite.setOrigin(sf::Vector2f(this->m_width / 2.f, this->m_height / 2.f));
 
 	this->m_sprite.setPosition(
-		(TKS::FlappyPig::W_WIDTH / 2.f),		// X
-		(TKS::FlappyPig::W_HEIGHT / 2.f)		// Y
+		(TKS::FlappyPig::W_WIDTH / 2.f), // X
+		(TKS::FlappyPig::W_HEIGHT / 2.f) // Y
 	);
 }
 
@@ -39,7 +39,7 @@ void TKS::FlappyPig::Player::update()
 	// Bottom window collision
 	if (positionY > TKS::FlappyPig::W_HEIGHT)
 	{
-		//this->setPosition(positionX, (float)TKS::FlappyPig::W_HEIGHT - this->m_height);
+		// this->setPosition(positionX, (float)TKS::FlappyPig::W_HEIGHT - this->m_height);
 		this->m_sprite.setPosition(positionX, (float)TKS::FlappyPig::W_HEIGHT - this->m_height);
 
 		this->m_velocity = 0;
@@ -48,7 +48,7 @@ void TKS::FlappyPig::Player::update()
 	// Top window collision
 	if (positionY < 0)
 	{
-		//this->setPosition(positionX, 0);
+		// this->setPosition(positionX, 0);
 		this->m_sprite.setPosition(positionX, 0);
 
 		this->m_velocity = 0;
@@ -94,17 +94,17 @@ void TKS::FlappyPig::Player::gainLife()
 	++this->m_lives;
 }
 
-TKS::FlappyPig::PlayerHitbox& TKS::FlappyPig::Player::getSprite()
+TKS::FlappyPig::PlayerHitbox &TKS::FlappyPig::Player::getSprite()
 {
 	return this->m_sprite;
 }
 
-void TKS::FlappyPig::Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void TKS::FlappyPig::Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
 	target.draw(m_sprite);
 }
 
-void TKS::FlappyPig::PlayerHitbox::setHitbox(const sf::FloatRect& hitbox)
+void TKS::FlappyPig::PlayerHitbox::setHitbox(const sf::FloatRect &hitbox)
 {
 	this->m_hitbox = hitbox;
 }

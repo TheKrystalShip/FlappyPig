@@ -27,7 +27,7 @@ void TKS::FlappyPig::GameDirector::start()
 
 	this->m_gameState = TKS::FlappyPig::GAME_STATE::RUNNING;
 	this->m_hud.setGameState(this->m_gameState);
-	
+
 	this->m_playerState = TKS::FlappyPig::PLAYER_STATE::ALIVE;
 	this->m_hud.setPlayerState(this->m_playerState);
 
@@ -51,7 +51,7 @@ void TKS::FlappyPig::GameDirector::onEscapeKeyPressed()
 	default:
 		break;
 	}
-	
+
 	this->m_hud.setGameState(this->m_gameState);
 }
 
@@ -73,16 +73,17 @@ void TKS::FlappyPig::GameDirector::increaseScore()
 		this->m_audio.playBoomSound();
 }
 
-void TKS::FlappyPig::GameDirector::update(sf::Clock& clock)
+void TKS::FlappyPig::GameDirector::update(sf::Clock &clock)
 {
 	this->m_player.update();
 	this->m_clouds.update();
 
 	this->m_pipes.update(
-		[&]() { increaseScore(); },
-		[&]() { onPlayerCollision(); },
-		this->m_player
-	);
+		[&]()
+		{ increaseScore(); },
+		[&]()
+		{ onPlayerCollision(); },
+		this->m_player);
 
 	if (clock.getElapsedTime().asMicroseconds() >= TKS::FlappyPig::PIPE_SPAWN_RATE_F)
 	{
@@ -159,35 +160,35 @@ bool TKS::FlappyPig::GameDirector::isGameAtDeathScreen() const
 bool TKS::FlappyPig::GameDirector::isTimeoutEnded() const
 {
 	return this->m_deathScreenTimeout.getElapsedTime().asSeconds() >
-		TKS::FlappyPig::DEATH_SCREEN_TIMEOUT_S;
+		   TKS::FlappyPig::DEATH_SCREEN_TIMEOUT_S;
 }
 
-TKS::FlappyPig::Hud& TKS::FlappyPig::GameDirector::getHud()
+TKS::FlappyPig::Hud &TKS::FlappyPig::GameDirector::getHud()
 {
 	return this->m_hud;
 }
 
-TKS::FlappyPig::Player& TKS::FlappyPig::GameDirector::getPlayer()
+TKS::FlappyPig::Player &TKS::FlappyPig::GameDirector::getPlayer()
 {
 	return this->m_player;
 }
 
-TKS::FlappyPig::Clouds& TKS::FlappyPig::GameDirector::getClouds()
+TKS::FlappyPig::Clouds &TKS::FlappyPig::GameDirector::getClouds()
 {
 	return this->m_clouds;
 }
 
-TKS::FlappyPig::Pipes& TKS::FlappyPig::GameDirector::getPipes()
+TKS::FlappyPig::Pipes &TKS::FlappyPig::GameDirector::getPipes()
 {
 	return this->m_pipes;
 }
 
-TKS::FlappyPig::GAME_STATE& TKS::FlappyPig::GameDirector::getGameState()
+TKS::FlappyPig::GAME_STATE &TKS::FlappyPig::GameDirector::getGameState()
 {
 	return this->m_gameState;
 }
 
-TKS::FlappyPig::PLAYER_STATE& TKS::FlappyPig::GameDirector::getPlayerState()
+TKS::FlappyPig::PLAYER_STATE &TKS::FlappyPig::GameDirector::getPlayerState()
 {
 	return this->m_playerState;
 }

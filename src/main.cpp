@@ -9,8 +9,7 @@ int main()
 {
     sf::RenderWindow window(
         sf::VideoMode(TKS::FlappyPig::W_WIDTH, TKS::FlappyPig::W_HEIGHT),
-        TKS::FlappyPig::NAME
-    );
+        TKS::FlappyPig::NAME);
 
     window.setFramerateLimit(TKS::FlappyPig::FPS);
 
@@ -25,11 +24,11 @@ int main()
         sf::Event event;
         while (window.pollEvent(event))
         {
-			switch (event.type)
+            switch (event.type)
             {
             case sf::Event::Closed:
                 window.close();
-				break;
+                break;
 
             case sf::Event::MouseButtonPressed:
                 switch (event.mouseButton.button)
@@ -39,7 +38,8 @@ int main()
                     {
                         continue;
                     }
-                    else if (director.isGameAtStartScreen() || director.isGameAtDeathScreen()) {
+                    else if (director.isGameAtStartScreen() || director.isGameAtDeathScreen())
+                    {
                         director.start();
                     }
                     else if (!director.isPaused() && !director.isPlayerDead())
@@ -59,7 +59,8 @@ int main()
                     {
                         continue;
                     }
-                    else if (director.isGameAtStartScreen() || director.isGameAtDeathScreen()) {
+                    else if (director.isGameAtStartScreen() || director.isGameAtDeathScreen())
+                    {
                         director.start();
                     }
                     else if (!director.isPaused() && !director.isPlayerDead())
@@ -99,7 +100,7 @@ int main()
             window.clear(sf::Color::Cyan);
 
             director.update(clock);
-            
+
             window.draw(director.getClouds());
             window.draw(director.getPipes());
             window.draw(director.getHud());

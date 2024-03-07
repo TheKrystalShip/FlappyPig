@@ -9,18 +9,18 @@
 #include <vector>
 
 // Cloud
-TKS::FlappyPig::Cloud::Cloud(sf::Texture& texture, bool randomPosX)
+TKS::FlappyPig::Cloud::Cloud(sf::Texture &texture, bool randomPosX)
 {
-    this->m_width = { 128 };
-    this->m_height = { 64 };
-    this->m_velocity = { 0.f };
+    this->m_width = {128};
+    this->m_height = {64};
+    this->m_velocity = {0.f};
 
     // Seed with a real random value, if available
     std::random_device r;
     std::default_random_engine e1(r());
     std::uniform_int_distribution<int> randomPositionY(0 + this->m_height, TKS::FlappyPig::W_HEIGHT - this->m_height);
     std::uniform_int_distribution<int> randomPositionX(0, TKS::FlappyPig::W_WIDTH);
-    
+
     int positionX = randomPosX ? randomPositionX(e1) : TKS::FlappyPig::W_WIDTH;
     int positionY = randomPositionY(e1);
 
@@ -42,7 +42,7 @@ bool TKS::FlappyPig::Cloud::isOffScreen()
     return (this->m_sprite.getPosition().x + this->m_width) < 0;
 }
 
-void TKS::FlappyPig::Cloud::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void TKS::FlappyPig::Cloud::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
     target.draw(this->m_sprite, states);
 }
@@ -61,11 +61,12 @@ void TKS::FlappyPig::Clouds::init()
 
 void TKS::FlappyPig::Clouds::update()
 {
-    for (auto& cloud : this->m_clouds)
+    for (auto &cloud : this->m_clouds)
         cloud.update();
 
     // Remove off-screen clouds from vector
-    std::erase_if(this->m_clouds, [](Cloud c) { return c.isOffScreen(); });
+    std::erase_if(this->m_clouds, [](Cloud c)
+                  { return c.isOffScreen(); });
 }
 
 void TKS::FlappyPig::Clouds::addCloud()
@@ -73,8 +74,8 @@ void TKS::FlappyPig::Clouds::addCloud()
     this->m_clouds.push_back(TKS::FlappyPig::Cloud(TextureManager::getCloudTexture()));
 }
 
-void TKS::FlappyPig::Clouds::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void TKS::FlappyPig::Clouds::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
-    for (auto& cloud : this->m_clouds)
+    for (auto &cloud : this->m_clouds)
         target.draw(cloud);
 }
