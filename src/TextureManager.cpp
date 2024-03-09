@@ -1,10 +1,11 @@
 #include "TextureManager.h"
+#include "Constants.h"
 
 void TKS::FlappyPig::TextureManager::init()
 {
-    _playerTexture.loadFromFile("assets/player.png");
-    _cloudTexture.loadFromFile("assets/cloud.png");
-    _pipeTexture.loadFromFile("assets/pipe.png");
+    _playerTexture.loadFromFile(TKS::FlappyPig::TEXTURE_PLAYER_PATH);
+    _cloudTexture.loadFromFile(TKS::FlappyPig::TEXTURE_CLOUD_PATH);
+    _pipeTexture.loadFromFile(TKS::FlappyPig::TEXTURE_PIPE_PATH);
 }
 
 sf::Texture &TKS::FlappyPig::TextureManager::getPlayerTexture()

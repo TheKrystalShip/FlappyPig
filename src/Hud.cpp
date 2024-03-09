@@ -8,7 +8,7 @@
 
 TKS::FlappyPig::Hud::Hud()
 {
-    this->_font.loadFromFile("assets/ka1.ttf");
+    this->_font.loadFromFile(TKS::FlappyPig::FONT_HUD_PATH);
 
     // START SCREEN
     this->_startText.setFont(this->_font);
