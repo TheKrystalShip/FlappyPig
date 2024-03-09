@@ -11,18 +11,18 @@ namespace TKS::FlappyPig
     {
     public:
         Cloud() = default;
-		Cloud(sf::Texture& texture, bool initial = false);
+        Cloud(sf::Texture &texture, bool initial = false);
 
         void update();
         bool isOffScreen();
 
-	private:
-        int m_width{ 128 };
-        int m_height{ 64 };
-        float m_velocity{ 0.f };
-        sf::Sprite m_sprite;
-        sf::Texture m_texture;
-        virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+    private:
+        int _widthInPx{128};
+        int _heightInPx{64};
+        float _velocityX{0.f};
+        sf::Sprite _sprite;
+        sf::Texture _texture;
+        virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
     };
 
     class Clouds : public sf::Drawable
@@ -32,10 +32,11 @@ namespace TKS::FlappyPig
         void init();
         void update();
         void addCloud();
+
     private:
-        std::vector<TKS::FlappyPig::Cloud> m_clouds;
-        virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+        std::vector<TKS::FlappyPig::Cloud> _clouds;
+        virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
     };
 } // namespace TKS::FlappyPig
 
-#endif // !__TKS_FLAPPYPIG_CLOUD_H__
+#endif // __TKS_FLAPPYPIG_CLOUD_H__

@@ -78,7 +78,7 @@ int main()
             default:
                 break;
             }
-        } // !while (window.pollEvent(event))
+        } // while (window.pollEvent(event))
 
         // 2. Show stuff on screen
 
@@ -138,7 +138,7 @@ int main()
         default:
             break;
         }
-    } // !while (window.isOpen())
+    } // while (window.isOpen())
 
     director.stop();
 

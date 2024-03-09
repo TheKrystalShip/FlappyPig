@@ -2,24 +2,24 @@
 
 void TKS::FlappyPig::TextureManager::init()
 {
-	m_playerTexture.loadFromFile("assets/player.png");
-	m_cloudTexture.loadFromFile("assets/cloud.png");
-	m_pipeTexture.loadFromFile("assets/pipe.png");
+    _playerTexture.loadFromFile("assets/player.png");
+    _cloudTexture.loadFromFile("assets/cloud.png");
+    _pipeTexture.loadFromFile("assets/pipe.png");
 }
 
 sf::Texture &TKS::FlappyPig::TextureManager::getPlayerTexture()
 {
-	return m_playerTexture;
+    return _playerTexture;
 }
 
 sf::Texture &TKS::FlappyPig::TextureManager::getCloudTexture()
 {
-	return m_cloudTexture;
+    return _cloudTexture;
 }
 
 sf::Texture &TKS::FlappyPig::TextureManager::getPipeTexture()
 {
-	return m_pipeTexture;
+    return _pipeTexture;
 }
 
 TKS::FlappyPig::TextureManager::TextureManager()

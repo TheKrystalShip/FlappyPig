@@ -15,6 +15,7 @@ namespace TKS::FlappyPig
         void playBackgroundMusic();
         void playBoomSound();
         void stop();
+
     private:
         sf::SoundBuffer m_jumpBuffer;
         sf::SoundBuffer m_damageBuffer;
@@ -28,5 +29,4 @@ namespace TKS::FlappyPig
     };
 } // namespace TKS::FlappyPig
 
-
-#endif
+#endif // __TKS_FLAPPYPIG_AUDIOMANAGER_H__
