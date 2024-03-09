@@ -6,6 +6,7 @@
 #include <SFML/Graphics.hpp>
 
 #include <vector>
+#include <random>
 #include <functional>
 
 namespace TKS::FlappyPig
@@ -24,7 +25,7 @@ namespace TKS::FlappyPig
     {
     public:
         Pipe() = default;
-        Pipe(sf::Texture &texture);
+        Pipe(sf::Texture &texture, sf::Vector2f position);
 
         void update();
         bool isOffscreen() const;
@@ -44,11 +45,24 @@ namespace TKS::FlappyPig
     {
     public:
         Pipes();
+        // Copy constructor
+        Pipes(const TKS::FlappyPig::Pipes &src);
+        // Move constructor
+        Pipes(TKS::FlappyPig::Pipes &&src);
+        // Copy assignment operator
+        TKS::FlappyPig::Pipes &operator=(const TKS::FlappyPig::Pipes &src);
+        // Move assignment operator
+        TKS::FlappyPig::Pipes &operator=(TKS::FlappyPig::Pipes &&src);
+
         void init();
         void update(std::function<void(void)> scoreCallback, std::function<void(void)> collisionCallback, TKS::FlappyPig::Player &player);
         void addPipe();
 
     private:
+        std::random_device _randomDevice;
+        std::default_random_engine _defaultRandomEngine;
+        std::uniform_int_distribution<int> _randomValueRange;
+
         std::vector<TKS::FlappyPig::Pipe> _pipes;
         virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
     };
