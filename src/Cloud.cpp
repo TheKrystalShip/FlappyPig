@@ -72,10 +72,9 @@ void TKS::FlappyPig::Clouds::init()
         this->_clouds.push_back(
             TKS::FlappyPig::Cloud(
                 TextureManager::getCloudTexture(),
-                {this->_randomValueRangeX(this->_defaultRandomEngine), this->_randomValueRangeY(this->_defaultRandomEngine)},
-                this->_randomValueRangeVelocity(this->_defaultRandomEngine)
-            )
-        );
+                {this->_randomValueRangeX(this->_defaultRandomEngine),
+                 this->_randomValueRangeY(this->_defaultRandomEngine)},
+                this->_randomValueRangeVelocity(this->_defaultRandomEngine)));
 }
 
 void TKS::FlappyPig::Clouds::update()
@@ -83,7 +82,8 @@ void TKS::FlappyPig::Clouds::update()
     for (auto &cloud : this->_clouds)
         cloud.update();
 
-    std::erase_if(this->_clouds, [](Cloud c) { return c.isOffScreen(); });
+    std::erase_if(this->_clouds, [](Cloud c)
+                  { return c.isOffScreen(); });
 }
 
 void TKS::FlappyPig::Clouds::addCloud()
@@ -92,12 +92,10 @@ void TKS::FlappyPig::Clouds::addCloud()
         TKS::FlappyPig::Cloud(
             TextureManager::getCloudTexture(),
             {TKS::FlappyPig::W_WIDTH, this->_randomValueRangeY(this->_defaultRandomEngine)},
-            this->_randomValueRangeVelocity(this->_defaultRandomEngine)
-        )
-    );
+            this->_randomValueRangeVelocity(this->_defaultRandomEngine)));
 }
 
-void TKS::FlappyPig::Clouds::draw(sf::RenderTarget &target, sf::RenderStates states) const
+void TKS::FlappyPig::Clouds::draw(sf::RenderTarget &target, sf::RenderStates) const
 {
     for (auto &cloud : this->_clouds)
         target.draw(cloud);

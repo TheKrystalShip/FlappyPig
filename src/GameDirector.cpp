@@ -14,14 +14,14 @@ TKS::FlappyPig::GameDirector::GameDirector()
 
     this->_highscore = 0;
 
-    this->_onGameStateChanged = TKS::EventHandler<TKS::FlappyPig::GAME_STATE>(
+    this->_onGameStateChanged = TKS::Events::EventHandler<TKS::FlappyPig::GAME_STATE>(
         [&](TKS::FlappyPig::GAME_STATE gameState)
         {
             this->setGameState(gameState);
             this->_hud.setGameState(gameState);
         });
 
-    this->_onPlayerStateChanged = TKS::EventHandler<TKS::FlappyPig::PLAYER_STATE>(
+    this->_onPlayerStateChanged = TKS::Events::EventHandler<TKS::FlappyPig::PLAYER_STATE>(
         [&](TKS::FlappyPig::PLAYER_STATE playerState)
         {
             this->setPlayerState(playerState);

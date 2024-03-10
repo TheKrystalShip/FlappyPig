@@ -1,5 +1,4 @@
-#ifndef __TKS_FLAPPYPIG_TEXTUREMANAGER_H__
-#define __TKS_FLAPPYPIG_TEXTUREMANAGER_H__
+#pragma once
 
 #include <SFML/Graphics.hpp>
 
@@ -20,5 +19,3 @@ namespace TKS::FlappyPig
         inline static sf::Texture _pipeTexture;
     };
 } // namespace TKS::FlappyPig
-
-#endif // __TKS_FLAPPYPIG_TEXTUREMANAGER_H__

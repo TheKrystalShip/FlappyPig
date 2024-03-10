@@ -1,5 +1,4 @@
-#ifndef __TKS_FLAPPYPIG_CLOUD_H__
-#define __TKS_FLAPPYPIG_CLOUD_H__
+#pragma once
 
 #include <SFML/Graphics.hpp>
 
@@ -54,5 +53,3 @@ namespace TKS::FlappyPig
         virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
     };
 } // namespace TKS::FlappyPig
-
-#endif // __TKS_FLAPPYPIG_CLOUD_H__

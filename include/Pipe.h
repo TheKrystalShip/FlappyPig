@@ -1,5 +1,4 @@
-#ifndef __TKS_FLAPPYPIG_PIPE_H__
-#define __TKS_FLAPPYPIG_PIPE_H__
+#pragma once
 
 #include "Player.h"
 
@@ -67,5 +66,3 @@ namespace TKS::FlappyPig
         virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
     };
 } // namespace TKS::FlappyPig
-
-#endif // __TKS_FLAPPYPIG_PIPE_H__

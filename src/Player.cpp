@@ -99,7 +99,7 @@ TKS::FlappyPig::PlayerHitbox &TKS::FlappyPig::Player::getSprite()
     return this->_sprite;
 }
 
-void TKS::FlappyPig::Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
+void TKS::FlappyPig::Player::draw(sf::RenderTarget &target, sf::RenderStates) const
 {
     target.draw(_sprite);
 }

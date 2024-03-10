@@ -61,7 +61,7 @@ bool TKS::FlappyPig::Pipe::collides(TKS::FlappyPig::PlayerHitbox &player)
                                        this->_bottomPipe.getGlobalHitbox().intersects(player.getGlobalHitbox());
 }
 
-void TKS::FlappyPig::Pipe::draw(sf::RenderTarget &target, sf::RenderStates states) const
+void TKS::FlappyPig::Pipe::draw(sf::RenderTarget &target, sf::RenderStates) const
 {
     target.draw(_topPipe);
     target.draw(_bottomPipe);
@@ -127,17 +127,17 @@ void TKS::FlappyPig::Pipes::update(std::function<void(void)> scoreCallback, std:
 
     // Remove off-screen pipes from vector
     std::erase_if(this->_pipes,
-        [this, &scoreCallback](TKS::FlappyPig::Pipe p)
-        {
-            // Increase score if pipe is off-screen (player passed it)
-            if (p.isOffscreen())
-            {
-                std::invoke(scoreCallback);
-                return true;
-            }
+                  [this, &scoreCallback](TKS::FlappyPig::Pipe p)
+                  {
+                      // Increase score if pipe is off-screen (player passed it)
+                      if (p.isOffscreen())
+                      {
+                          std::invoke(scoreCallback);
+                          return true;
+                      }
 
-            return false;
-        });
+                      return false;
+                  });
 }
 
 void TKS::FlappyPig::Pipes::addPipe()
@@ -146,12 +146,10 @@ void TKS::FlappyPig::Pipes::addPipe()
     this->_pipes.push_back(
         TKS::FlappyPig::Pipe(
             TextureManager::getPipeTexture(),
-            {TKS::FlappyPig::W_WIDTH + 64, topPipePosY}
-        )
-    );
+            {TKS::FlappyPig::W_WIDTH + 64, topPipePosY}));
 }
 
-void TKS::FlappyPig::Pipes::draw(sf::RenderTarget &target, sf::RenderStates states) const
+void TKS::FlappyPig::Pipes::draw(sf::RenderTarget &target, sf::RenderStates) const
 {
     for (auto &pipe : this->_pipes)
         target.draw(pipe);

@@ -131,7 +131,7 @@ void TKS::FlappyPig::Hud::setPlayerState(TKS::FlappyPig::PLAYER_STATE &state)
     this->_playerState = state;
 }
 
-void TKS::FlappyPig::Hud::draw(sf::RenderTarget &target, sf::RenderStates states) const
+void TKS::FlappyPig::Hud::draw(sf::RenderTarget &target, sf::RenderStates) const
 {
     switch (this->_gameState)
     {

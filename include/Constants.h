@@ -1,5 +1,4 @@
-#ifndef __TKS_FLAPPYPIG_CONSTANTS_H__
-#define __TKS_FLAPPYPIG_CONSTANTS_H__
+#pragma once
 
 #include <string>
 
@@ -52,5 +51,3 @@ namespace TKS::FlappyPig
         DEAD
     };
 } // namespace TKS::FlappyPig
-
-#endif // __TKS_FLAPPYPIG_CONSTANTS_H__

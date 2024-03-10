@@ -1,5 +1,4 @@
-#ifndef __TKS_FLAPPYPIG_AUDIOMANAGER_H__
-#define __TKS_FLAPPYPIG_AUDIOMANAGER_H__
+#pragma once
 
 #include <SFML/Audio.hpp>
 
@@ -28,5 +27,3 @@ namespace TKS::FlappyPig
         sf::Music m_backgroundMusic;
     };
 } // namespace TKS::FlappyPig
-
-#endif // __TKS_FLAPPYPIG_AUDIOMANAGER_H__
