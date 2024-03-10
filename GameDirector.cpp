@@ -7,187 +7,218 @@ using TKS::FlappyPig::TextureManager;
 
 TKS::FlappyPig::GameDirector::GameDirector()
 {
-	TextureManager::init();
-	this->m_gameState = TKS::FlappyPig::GAME_STATE::START;
-	this->m_hud.setGameState(this->m_gameState);
-	this->m_audio.playBackgroundMusic();
+    TextureManager::init();
+    this->_gameState = TKS::FlappyPig::GAME_STATE::START;
+    this->_hud.setGameState(this->_gameState);
+    this->_audio.playBackgroundMusic();
 
-	this->m_highscore = 0;
+    this->_highscore = 0;
+
+    this->_onGameStateChanged = TKS::Events::EventHandler<TKS::FlappyPig::GAME_STATE>(
+        [&](TKS::FlappyPig::GAME_STATE gameState)
+        {
+            this->setGameState(gameState);
+            this->_hud.setGameState(gameState);
+        });
+
+    this->_onPlayerStateChanged = TKS::Events::EventHandler<TKS::FlappyPig::PLAYER_STATE>(
+        [&](TKS::FlappyPig::PLAYER_STATE playerState)
+        {
+            this->setPlayerState(playerState);
+            this->_hud.setPlayerState(playerState);
+        });
+
+    this->_gameStateChangedEvent += this->_onGameStateChanged;
+    this->_playerStateChangedEvent += this->_onPlayerStateChanged;
 }
 
 void TKS::FlappyPig::GameDirector::start()
 {
-	this->m_player = TKS::FlappyPig::Player(TextureManager::getPlayerTexture());
+    this->_player = TKS::FlappyPig::Player(TextureManager::getPlayerTexture());
 
-	this->m_score = 0;
-	this->m_hud.setPlayerScore(this->m_score);
+    this->_score = 0;
+    this->_hud.setPlayerScore(this->_score);
 
-	this->m_player.setLives(3);
-	this->m_hud.setPlayerLives(this->m_player.getLives());
+    this->_player.setLives(3);
+    this->_hud.setPlayerLives(this->_player.getLives());
 
-	this->m_gameState = TKS::FlappyPig::GAME_STATE::RUNNING;
-	this->m_hud.setGameState(this->m_gameState);
-	
-	this->m_playerState = TKS::FlappyPig::PLAYER_STATE::ALIVE;
-	this->m_hud.setPlayerState(this->m_playerState);
+    // this->_gameState = TKS::FlappyPig::GAME_STATE::RUNNING;
+    // this->_hud.setGameState(this->_gameState);
+    this->_gameStateChangedEvent(TKS::FlappyPig::GAME_STATE::RUNNING);
 
-	this->m_clouds = TKS::FlappyPig::Clouds();
-	this->m_pipes = TKS::FlappyPig::Pipes();
+    // this->_playerState = TKS::FlappyPig::PLAYER_STATE::ALIVE;
+    // this->_hud.setPlayerState(this->_playerState);
+    this->_playerStateChangedEvent(TKS::FlappyPig::PLAYER_STATE::ALIVE);
 
-	this->m_clouds.init();
-	this->m_pipes.init();
+    this->_clouds = TKS::FlappyPig::Clouds();
+    this->_pipes = TKS::FlappyPig::Pipes();
+
+    this->_clouds.init();
+    this->_pipes.init();
 }
 
 void TKS::FlappyPig::GameDirector::onEscapeKeyPressed()
 {
-	switch (this->m_gameState)
-	{
-	case TKS::FlappyPig::GAME_STATE::PAUSED:
-		this->m_gameState = TKS::FlappyPig::GAME_STATE::RUNNING;
-		break;
-	case TKS::FlappyPig::GAME_STATE::RUNNING:
-		this->m_gameState = TKS::FlappyPig::GAME_STATE::PAUSED;
-		break;
-	default:
-		break;
-	}
-	
-	this->m_hud.setGameState(this->m_gameState);
+    switch (this->_gameState)
+    {
+    case TKS::FlappyPig::GAME_STATE::PAUSED:
+        // this->_gameState = TKS::FlappyPig::GAME_STATE::RUNNING;
+        this->_gameStateChangedEvent(TKS::FlappyPig::GAME_STATE::RUNNING);
+        break;
+    case TKS::FlappyPig::GAME_STATE::RUNNING:
+        // this->_gameState = TKS::FlappyPig::GAME_STATE::PAUSED;
+        this->_gameStateChangedEvent(TKS::FlappyPig::GAME_STATE::PAUSED);
+        break;
+    default:
+        break;
+    }
+
+    this->_hud.setGameState(this->_gameState);
 }
 
 void TKS::FlappyPig::GameDirector::stop()
 {
-	this->m_audio.stop();
+    this->_audio.stop();
 }
 
 void TKS::FlappyPig::GameDirector::setScore(int score)
 {
-	this->m_hud.setPlayerScore(score);
+    this->_hud.setPlayerScore(score);
 }
 
 void TKS::FlappyPig::GameDirector::increaseScore()
 {
-	this->setScore(++this->m_score);
+    this->setScore(++this->_score);
 
-	if (this->m_score % 10 == 0)
-		this->m_audio.playBoomSound();
+    if (this->_score % 10 == 0)
+        this->_audio.playBoomSound();
 }
 
-void TKS::FlappyPig::GameDirector::update(sf::Clock& clock)
+void TKS::FlappyPig::GameDirector::update(sf::Clock &clock)
 {
-	this->m_player.update();
-	this->m_clouds.update();
+    this->_player.update();
+    this->_clouds.update();
 
-	this->m_pipes.update(
-		[&]() { increaseScore(); },
-		[&]() { onPlayerCollision(); },
-		this->m_player
-	);
+    this->_pipes.update(
+        [&]()
+        { increaseScore(); },
+        [&]()
+        { onPlayerCollision(); },
+        this->_player);
 
-	if (clock.getElapsedTime().asMicroseconds() >= TKS::FlappyPig::PIPE_SPAWN_RATE_F)
-	{
-		this->m_clouds.addCloud();
-		this->m_pipes.addPipe();
-		clock.restart();
-	}
+    if (clock.getElapsedTime().asMicroseconds() >= TKS::FlappyPig::PIPE_SPAWN_RATE_F)
+    {
+        this->_clouds.addCloud();
+        this->_pipes.addPipe();
+        clock.restart();
+    }
 }
 
 void TKS::FlappyPig::GameDirector::onSpaceKeyPressed()
 {
-	this->m_audio.playJumpSound();
-	this->m_player.jump();
+    this->_audio.playJumpSound();
+    this->_player.jump();
 }
 
 void TKS::FlappyPig::GameDirector::onPlayerCollision()
 {
-	// Collision with 1 life left == death
-	if (this->m_player.getLives() == 1)
-		this->onPlayerDeath();
+    // Collision with 1 life left == death
+    if (this->_player.getLives() == 1)
+        this->onPlayerDeath();
 
-	if (this->m_player.getLives() > 1)
-		this->m_audio.playDamageSound();
+    if (this->_player.getLives() > 1)
+        this->_audio.playDamageSound();
 
-	this->m_player.loseLife();
-	this->m_hud.setPlayerLives(this->m_player.getLives());
+    this->_player.loseLife();
+    this->_hud.setPlayerLives(this->_player.getLives());
 }
 
 void TKS::FlappyPig::GameDirector::onPlayerDeath()
 {
-	this->m_deathScreenTimeout.restart();
+    this->_deathScreenTimeout.restart();
 
-	this->m_gameState = TKS::FlappyPig::GAME_STATE::DEATH;
-	this->m_playerState = TKS::FlappyPig::PLAYER_STATE::DEAD;
+    // this->_gameState = TKS::FlappyPig::GAME_STATE::DEATH;
+    this->_gameStateChangedEvent(TKS::FlappyPig::GAME_STATE::DEATH);
+    // this->_playerState = TKS::FlappyPig::PLAYER_STATE::DEAD;
+    this->_playerStateChangedEvent(TKS::FlappyPig::PLAYER_STATE::DEAD);
 
-	this->m_hud.setGameState(this->m_gameState);
-	this->m_hud.setPlayerState(this->m_playerState);
+    this->_audio.playDeathSound();
 
-	this->m_audio.playDeathSound();
-
-	// Update highscore
-	if (this->m_score > this->m_highscore)
-	{
-		this->m_highscore = this->m_score;
-		this->m_hud.setPlayerHighscore(this->m_highscore);
-	}
+    // Update highscore
+    if (this->_score > this->_highscore)
+    {
+        this->_highscore = this->_score;
+        this->_hud.setPlayerHighscore(this->_highscore);
+    }
 }
 
 bool TKS::FlappyPig::GameDirector::isRunning() const
 {
-	return this->m_gameState == TKS::FlappyPig::GAME_STATE::RUNNING;
+    return this->_gameState == TKS::FlappyPig::GAME_STATE::RUNNING;
 }
 
 bool TKS::FlappyPig::GameDirector::isPaused() const
 {
-	return this->m_gameState == TKS::FlappyPig::GAME_STATE::PAUSED;
+    return this->_gameState == TKS::FlappyPig::GAME_STATE::PAUSED;
 }
 
 bool TKS::FlappyPig::GameDirector::isPlayerDead() const
 {
-	return this->m_playerState == TKS::FlappyPig::PLAYER_STATE::DEAD;
+    return this->_playerState == TKS::FlappyPig::PLAYER_STATE::DEAD;
 }
 
 bool TKS::FlappyPig::GameDirector::isGameAtStartScreen() const
 {
-	return this->m_gameState == TKS::FlappyPig::GAME_STATE::START;
+    return this->_gameState == TKS::FlappyPig::GAME_STATE::START;
 }
 
 bool TKS::FlappyPig::GameDirector::isGameAtDeathScreen() const
 {
-	return this->m_gameState == TKS::FlappyPig::GAME_STATE::DEATH;
+    return this->_gameState == TKS::FlappyPig::GAME_STATE::DEATH;
 }
 
 bool TKS::FlappyPig::GameDirector::isTimeoutEnded() const
 {
-	return this->m_deathScreenTimeout.getElapsedTime().asSeconds() >
-		TKS::FlappyPig::DEATH_SCREEN_TIMEOUT_S;
+    return this->_deathScreenTimeout.getElapsedTime().asSeconds() >
+           TKS::FlappyPig::DEATH_SCREEN_TIMEOUT_S;
 }
 
-TKS::FlappyPig::Hud& TKS::FlappyPig::GameDirector::getHud()
+TKS::FlappyPig::Hud &TKS::FlappyPig::GameDirector::getHud()
 {
-	return this->m_hud;
+    return this->_hud;
 }
 
-TKS::FlappyPig::Player& TKS::FlappyPig::GameDirector::getPlayer()
+TKS::FlappyPig::Player &TKS::FlappyPig::GameDirector::getPlayer()
 {
-	return this->m_player;
+    return this->_player;
 }
 
-TKS::FlappyPig::Clouds& TKS::FlappyPig::GameDirector::getClouds()
+TKS::FlappyPig::Clouds &TKS::FlappyPig::GameDirector::getClouds()
 {
-	return this->m_clouds;
+    return this->_clouds;
 }
 
-TKS::FlappyPig::Pipes& TKS::FlappyPig::GameDirector::getPipes()
+TKS::FlappyPig::Pipes &TKS::FlappyPig::GameDirector::getPipes()
 {
-	return this->m_pipes;
+    return this->_pipes;
 }
 
-TKS::FlappyPig::GAME_STATE& TKS::FlappyPig::GameDirector::getGameState()
+TKS::FlappyPig::GAME_STATE &TKS::FlappyPig::GameDirector::getGameState()
 {
-	return this->m_gameState;
+    return this->_gameState;
 }
 
-TKS::FlappyPig::PLAYER_STATE& TKS::FlappyPig::GameDirector::getPlayerState()
+TKS::FlappyPig::PLAYER_STATE &TKS::FlappyPig::GameDirector::getPlayerState()
 {
-	return this->m_playerState;
+    return this->_playerState;
+}
+
+void TKS::FlappyPig::GameDirector::setGameState(TKS::FlappyPig::GAME_STATE gameState)
+{
+    this->_gameState = gameState;
+}
+
+void TKS::FlappyPig::GameDirector::setPlayerState(TKS::FlappyPig::PLAYER_STATE playerState)
+{
+    this->_playerState = playerState;
 }

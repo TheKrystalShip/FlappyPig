@@ -1,25 +1,26 @@
 #include "TextureManager.h"
+#include "Constants.h"
 
 void TKS::FlappyPig::TextureManager::init()
 {
-	m_playerTexture.loadFromFile("assets\\player.png");
-	m_cloudTexture.loadFromFile("assets\\cloud.png");
-	m_pipeTexture.loadFromFile("assets\\pipe.png");
+    _playerTexture.loadFromFile(TKS::FlappyPig::TEXTURE_PLAYER_PATH);
+    _cloudTexture.loadFromFile(TKS::FlappyPig::TEXTURE_CLOUD_PATH);
+    _pipeTexture.loadFromFile(TKS::FlappyPig::TEXTURE_PIPE_PATH);
 }
 
-sf::Texture& TKS::FlappyPig::TextureManager::getPlayerTexture()
+sf::Texture &TKS::FlappyPig::TextureManager::getPlayerTexture()
 {
-	return m_playerTexture;
+    return _playerTexture;
 }
 
-sf::Texture& TKS::FlappyPig::TextureManager::getCloudTexture()
+sf::Texture &TKS::FlappyPig::TextureManager::getCloudTexture()
 {
-	return m_cloudTexture;
+    return _cloudTexture;
 }
 
-sf::Texture& TKS::FlappyPig::TextureManager::getPipeTexture()
+sf::Texture &TKS::FlappyPig::TextureManager::getPipeTexture()
 {
-	return m_pipeTexture;
+    return _pipeTexture;
 }
 
 TKS::FlappyPig::TextureManager::TextureManager()

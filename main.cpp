@@ -9,10 +9,10 @@ int main()
 {
     sf::RenderWindow window(
         sf::VideoMode(TKS::FlappyPig::W_WIDTH, TKS::FlappyPig::W_HEIGHT),
-        TKS::FlappyPig::NAME
-    );
+        TKS::FlappyPig::NAME);
 
     window.setFramerateLimit(TKS::FlappyPig::FPS);
+    window.setVerticalSyncEnabled(false);
 
     TKS::FlappyPig::GameDirector director;
 
@@ -25,11 +25,11 @@ int main()
         sf::Event event;
         while (window.pollEvent(event))
         {
-			switch (event.type)
+            switch (event.type)
             {
             case sf::Event::Closed:
                 window.close();
-				break;
+                break;
 
             case sf::Event::MouseButtonPressed:
                 switch (event.mouseButton.button)
@@ -39,7 +39,8 @@ int main()
                     {
                         continue;
                     }
-                    else if (director.isGameAtStartScreen() || director.isGameAtDeathScreen()) {
+                    else if (director.isGameAtStartScreen() || director.isGameAtDeathScreen())
+                    {
                         director.start();
                     }
                     else if (!director.isPaused() && !director.isPlayerDead())
@@ -59,7 +60,8 @@ int main()
                     {
                         continue;
                     }
-                    else if (director.isGameAtStartScreen() || director.isGameAtDeathScreen()) {
+                    else if (director.isGameAtStartScreen() || director.isGameAtDeathScreen())
+                    {
                         director.start();
                     }
                     else if (!director.isPaused() && !director.isPlayerDead())
@@ -77,7 +79,7 @@ int main()
             default:
                 break;
             }
-        } // !while (window.pollEvent(event))
+        } // while (window.pollEvent(event))
 
         // 2. Show stuff on screen
 
@@ -99,7 +101,7 @@ int main()
             window.clear(sf::Color::Cyan);
 
             director.update(clock);
-            
+
             window.draw(director.getClouds());
             window.draw(director.getPipes());
             window.draw(director.getHud());
@@ -137,7 +139,7 @@ int main()
         default:
             break;
         }
-    } // !while (window.isOpen())
+    } // while (window.isOpen())
 
     director.stop();
 

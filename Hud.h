@@ -1,5 +1,4 @@
-#ifndef __TKS_FLAPPYPIG_HUD_H__
-#define __TKS_FLAPPYPIG_HUD_H__
+#pragma once
 
 #include "Constants.h"
 
@@ -14,31 +13,29 @@ namespace TKS::FlappyPig
         void setPlayerScore(int score);
         void setPlayerLives(int health);
         void setPlayerHighscore(int highscore);
-        void setGameState(TKS::FlappyPig::GAME_STATE& state);
-        void setPlayerState(TKS::FlappyPig::PLAYER_STATE& state);
+        void setGameState(TKS::FlappyPig::GAME_STATE &state);
+        void setPlayerState(TKS::FlappyPig::PLAYER_STATE &state);
 
     private:
-        TKS::FlappyPig::GAME_STATE m_gameState{ TKS::FlappyPig::GAME_STATE::G_UNSET };
-		TKS::FlappyPig::PLAYER_STATE m_playerState{ TKS::FlappyPig::PLAYER_STATE::P_UNSET };
-        sf::Font m_font;
+        TKS::FlappyPig::GAME_STATE _gameState{TKS::FlappyPig::GAME_STATE::UNSET};
+        TKS::FlappyPig::PLAYER_STATE _playerState{TKS::FlappyPig::PLAYER_STATE::UNSET};
+        sf::Font _font;
 
-        sf::Text m_highscoreText;
-        sf::Text m_highscoreNum;
+        sf::Text _highscoreText;
+        sf::Text _highscoreNum;
 
-        sf::Text m_scoreText;
-        sf::Text m_scoreNum;
+        sf::Text _scoreText;
+        sf::Text _scoreNum;
 
-        sf::Text m_startText;
-        sf::Text m_deathText;
-        sf::Text m_pauseText;
+        sf::Text _startText;
+        sf::Text _deathText;
+        sf::Text _pauseText;
 
-        sf::Text m_playerLivesText;
-        sf::Text m_playerLivesNum;
+        sf::Text _playerLivesText;
+        sf::Text _playerLivesNum;
 
-        sf::Text m_spriteCreditsText;
+        sf::Text _spriteCreditsText;
 
-        virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+        virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
     };
 } // namespace TKS::FlappyPig
-
-#endif // !__TKS_FLAPPYPIG_HUD_H__

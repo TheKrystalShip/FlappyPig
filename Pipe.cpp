@@ -10,130 +10,147 @@
 #include <functional>
 
 // Pipe
-TKS::FlappyPig::Pipe::Pipe(sf::Texture &texture)
+TKS::FlappyPig::Pipe::Pipe(sf::Texture &texture, sf::Vector2f position = {0, 0})
 {
-	this->m_width = { 64 };
-	this->m_height = { 640 };
-	this->m_velocity = { -3.5f };
-	this->m_collided = { false };
+    this->_widthInPx = 64;
+    this->_heightInPx = 640;
+    this->_velocityX = -3.5f;
+    this->_collidedWithPlayer = false;
 
-	this->m_topPipe.setTexture(texture);
-	this->m_topPipe.setHitbox({8, 16, 48, 616});
+    this->_topPipe.setTexture(texture);
+    this->_topPipe.setHitbox({8, 16, 48, 616});
 
-	this->m_bottomPipe.setTexture(texture);
-	this->m_bottomPipe.setHitbox({ 8, 16, 48, 616 });
+    this->_bottomPipe.setTexture(texture);
+    this->_bottomPipe.setHitbox({8, 16, 48, 616});
 
-	this->m_topPipe.setOrigin(sf::Vector2f(this->m_width / 2.f, 0));
-	this->m_bottomPipe.setOrigin(sf::Vector2f(this->m_width / 2.f, 0));
+    this->_topPipe.setOrigin({this->_widthInPx / 2.f, 0});
+    this->_bottomPipe.setOrigin({this->_widthInPx / 2.f, 0});
 
-	// Rotate top pipe 180บ
-	this->m_topPipe.setRotation(180.f);
+    // Rotate top pipe 180ยบ
+    this->_topPipe.setRotation(180.f);
 
-	// Seed with a real random value, if available
-	std::random_device r;
-	std::default_random_engine e1(r());
-	std::uniform_int_distribution<int> randomPositionY(
-		0,
-		(TKS::FlappyPig::W_HEIGHT - TKS::FlappyPig::PLAYER_SAFE_ZONE)
-	);
+    // Top right off-screen
+    this->_topPipe.setPosition(position);
 
-	int topPipePosY = randomPositionY(e1);
-	int bottomPipePosY = this->m_height - TKS::FlappyPig::PLAYER_SAFE_ZONE - topPipePosY;
-
-	// Top right off-screen
-	this->m_topPipe.setPosition(
-		sf::Vector2f(TKS::FlappyPig::W_WIDTH, topPipePosY)
-	);
-
-	// Bottom right off-screen
-	this->m_bottomPipe.setPosition(
-		sf::Vector2f(TKS::FlappyPig::W_WIDTH, TKS::FlappyPig::W_HEIGHT - bottomPipePosY)
-	);
+    // Bottom right off-screen
+    // Bottom pipe's position is always relative to the top pipe + a safezone gap
+    int bottomPipePosY = this->_heightInPx - TKS::FlappyPig::PLAYER_SAFE_ZONE - position.y;
+    this->_bottomPipe.setPosition(
+        { static_cast<float>(TKS::FlappyPig::W_WIDTH + this->_widthInPx), static_cast<float>(TKS::FlappyPig::W_HEIGHT - bottomPipePosY)});
 }
 
 void TKS::FlappyPig::Pipe::update()
 {
-	this->m_bottomPipe.move(this->m_velocity, 0);
-	this->m_topPipe.move(this->m_velocity, 0);
+    this->_bottomPipe.move(this->_velocityX, 0);
+    this->_topPipe.move(this->_velocityX, 0);
 }
 
 bool TKS::FlappyPig::Pipe::isOffscreen() const
 {
-	return (this->m_bottomPipe.getPosition().x + this->m_width) < 0.f;
+    return (this->_bottomPipe.getPosition().x + (this->_widthInPx * 2)) < 0.f;
 }
 
-bool TKS::FlappyPig::Pipe::collides(TKS::FlappyPig::PlayerHitbox& player)
+bool TKS::FlappyPig::Pipe::collides(TKS::FlappyPig::PlayerHitbox &player)
 {
-	// Avoid spammnig collision detecting, this ensures we only notify once per collision
-	if (this->m_collided)
-		return false;
+    // Avoid spammnig collision detecting, this ensures we only notify once per collision
+    if (this->_collidedWithPlayer)
+        return false;
 
-	return this->m_collided = this->m_topPipe.getGlobalHitbox().intersects(player.getGlobalHitbox()) ||
-		this->m_bottomPipe.getGlobalHitbox().intersects(player.getGlobalHitbox());
+    // Assign & return
+    return this->_collidedWithPlayer = this->_topPipe.getGlobalHitbox().intersects(player.getGlobalHitbox()) ||
+                                       this->_bottomPipe.getGlobalHitbox().intersects(player.getGlobalHitbox());
 }
 
-void TKS::FlappyPig::Pipe::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void TKS::FlappyPig::Pipe::draw(sf::RenderTarget &target, sf::RenderStates) const
 {
-	target.draw(m_topPipe);
-	target.draw(m_bottomPipe);
+    target.draw(_topPipe);
+    target.draw(_bottomPipe);
 }
-
 
 // PipeHitbox
-void TKS::FlappyPig::PipeHitbox::setHitbox(const sf::FloatRect& hitbox)
+void TKS::FlappyPig::PipeHitbox::setHitbox(const sf::FloatRect &hitbox)
 {
-	this->m_hitbox = hitbox;
+    this->_hitbox = hitbox;
 }
 
 sf::FloatRect TKS::FlappyPig::PipeHitbox::getGlobalHitbox() const
 {
-	return getTransform().transformRect(this->m_hitbox);
+    return getTransform().transformRect(this->_hitbox);
 }
-
 
 // Pipes
 TKS::FlappyPig::Pipes::Pipes()
 {
-	this->m_pipes = std::vector<TKS::FlappyPig::Pipe>();
+    this->_pipes = std::vector<TKS::FlappyPig::Pipe>();
+
+    // Seed with a real random value, if available
+    this->_defaultRandomEngine = std::default_random_engine(this->_randomDevice());
+    this->_randomValueRange = std::uniform_int_distribution<int>(
+        0,
+        (TKS::FlappyPig::W_HEIGHT - TKS::FlappyPig::PLAYER_SAFE_ZONE));
+}
+
+TKS::FlappyPig::Pipes::Pipes(const TKS::FlappyPig::Pipes &src) : _pipes(src._pipes)
+{
+}
+
+TKS::FlappyPig::Pipes::Pipes(TKS::FlappyPig::Pipes &&src) : _pipes(std::move(src._pipes))
+{
+}
+
+TKS::FlappyPig::Pipes &TKS::FlappyPig::Pipes::operator=(const TKS::FlappyPig::Pipes &src)
+{
+    _pipes = src._pipes;
+    return *this;
+}
+
+TKS::FlappyPig::Pipes &TKS::FlappyPig::Pipes::operator=(TKS::FlappyPig::Pipes &&src)
+{
+    std::swap(_pipes, src._pipes);
+    return *this;
 }
 
 void TKS::FlappyPig::Pipes::init()
 {
 }
 
-void TKS::FlappyPig::Pipes::update(std::function<void(void)> scoreCallback, std::function<void(void)> collisionCallback, TKS::FlappyPig::Player& player)
+void TKS::FlappyPig::Pipes::update(std::function<void(void)> scoreCallback, std::function<void(void)> collisionCallback, TKS::FlappyPig::Player &player)
 {
-	// Move pipes and check for player collision
-	for (auto& pipe : this->m_pipes)
-	{
-		pipe.update();
+    // Move pipes and check for player collision
+    for (auto &pipe : this->_pipes)
+    {
+        pipe.update();
 
-		if (pipe.collides(player.getSprite()))
-			std::invoke(collisionCallback);
-	}
+        if (pipe.collides(player.getSprite()))
+            std::invoke(collisionCallback);
+    }
 
-	// Remove off-screen pipes from vector
-	std::erase_if(this->m_pipes,
-		[this, &scoreCallback](TKS::FlappyPig::Pipe p) {
+    // Remove off-screen pipes from vector
+    std::erase_if(this->_pipes,
+                  [this, &scoreCallback](TKS::FlappyPig::Pipe p)
+                  {
+                      // Increase score if pipe is off-screen (player passed it)
+                      if (p.isOffscreen())
+                      {
+                          std::invoke(scoreCallback);
+                          return true;
+                      }
 
-			// Increase score if pipe is off-screen (player passed it)
-			if (p.isOffscreen()) {
-				std::invoke(scoreCallback);
-				return true;
-			}
-
-			return false;
-		}
-	);
+                      return false;
+                  });
 }
 
 void TKS::FlappyPig::Pipes::addPipe()
 {
-	this->m_pipes.push_back(TKS::FlappyPig::Pipe(TextureManager::getPipeTexture()));
+    int topPipePosY = this->_randomValueRange(this->_defaultRandomEngine);
+    this->_pipes.push_back(
+        TKS::FlappyPig::Pipe(
+            TextureManager::getPipeTexture(),
+            { static_cast<float>(TKS::FlappyPig::W_WIDTH + 64), static_cast<float>(topPipePosY)}));
 }
 
-void TKS::FlappyPig::Pipes::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void TKS::FlappyPig::Pipes::draw(sf::RenderTarget &target, sf::RenderStates) const
 {
-	for (auto& pipe : this->m_pipes)
-		target.draw(pipe);
+    for (auto &pipe : this->_pipes)
+        target.draw(pipe);
 }
