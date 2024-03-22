@@ -8,7 +8,7 @@
 #include <random>
 #include <functional>
 
-namespace TKS::FlappyPig
+namespace FP
 {
     class PipeHitbox : public sf::Sprite
     {
@@ -28,15 +28,15 @@ namespace TKS::FlappyPig
 
         void update();
         bool isOffscreen() const;
-        bool collides(TKS::FlappyPig::PlayerHitbox &obj);
+        bool collides(FP::PlayerHitbox &obj);
 
     private:
         int _widthInPx;
         int _heightInPx;
         float _velocityX;
         bool _collidedWithPlayer;
-        TKS::FlappyPig::PipeHitbox _topPipe;
-        TKS::FlappyPig::PipeHitbox _bottomPipe;
+        FP::PipeHitbox _topPipe;
+        FP::PipeHitbox _bottomPipe;
         virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
     };
 
@@ -45,24 +45,24 @@ namespace TKS::FlappyPig
     public:
         Pipes();
         // Copy constructor
-        Pipes(const TKS::FlappyPig::Pipes &src);
+        Pipes(const FP::Pipes &src);
         // Move constructor
-        Pipes(TKS::FlappyPig::Pipes &&src);
+        Pipes(FP::Pipes &&src);
         // Copy assignment operator
-        TKS::FlappyPig::Pipes &operator=(const TKS::FlappyPig::Pipes &src);
+        FP::Pipes &operator=(const FP::Pipes &src);
         // Move assignment operator
-        TKS::FlappyPig::Pipes &operator=(TKS::FlappyPig::Pipes &&src);
+        FP::Pipes &operator=(FP::Pipes &&src);
 
         void init();
-        void update(std::function<void(void)> scoreCallback, std::function<void(void)> collisionCallback, TKS::FlappyPig::Player &player);
+        void update(std::function<void(void)> scoreCallback, std::function<void(void)> collisionCallback, FP::Player &player);
         void addPipe();
 
     private:
         std::random_device _randomDevice;
         std::default_random_engine _defaultRandomEngine;
-        std::uniform_int_distribution<int> _randomValueRange;
+        std::uniform_real_distribution<float> _randomValueRange;
 
-        std::vector<TKS::FlappyPig::Pipe> _pipes;
+        std::vector<FP::Pipe> _pipes;
         virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
     };
-} // namespace TKS::FlappyPig
+} // namespace FP

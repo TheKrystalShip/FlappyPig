@@ -10,7 +10,7 @@
 #include <TKS/Events.hpp>
 #include <SFML/Graphics.hpp>
 
-namespace TKS::FlappyPig
+namespace FP
 {
     class GameDirector
     {
@@ -36,15 +36,15 @@ namespace TKS::FlappyPig
         bool isGameAtDeathScreen() const;
         bool isTimeoutEnded() const;
 
-        TKS::FlappyPig::Hud &getHud();
-        TKS::FlappyPig::Pipes &getPipes();
-        TKS::FlappyPig::Player &getPlayer();
-        TKS::FlappyPig::Clouds &getClouds();
-        TKS::FlappyPig::GAME_STATE &getGameState();
-        TKS::FlappyPig::PLAYER_STATE &getPlayerState();
+        FP::Hud &getHud();
+        FP::Pipes &getPipes();
+        FP::Player &getPlayer();
+        FP::Clouds &getClouds();
+        FP::GAME_STATE &getGameState();
+        FP::PLAYER_STATE &getPlayerState();
 
-        void setGameState(TKS::FlappyPig::GAME_STATE gameState);
-        void setPlayerState(TKS::FlappyPig::PLAYER_STATE playerState);
+        void setGameState(FP::GAME_STATE gameState);
+        void setPlayerState(FP::PLAYER_STATE playerState);
 
     private:
         int _score{0};
@@ -52,19 +52,19 @@ namespace TKS::FlappyPig
 
         sf::Clock _deathScreenTimeout;
 
-        TKS::FlappyPig::Hud _hud;
-        TKS::FlappyPig::Pipes _pipes;
-        TKS::FlappyPig::Player _player;
-        TKS::FlappyPig::Clouds _clouds;
-        TKS::FlappyPig::AudioManager _audio;
+        FP::Hud _hud;
+        FP::Pipes _pipes;
+        FP::Player _player;
+        FP::Clouds _clouds;
+        FP::AudioManager _audio;
 
-        TKS::Events::Event<TKS::FlappyPig::GAME_STATE> _gameStateChangedEvent;
-        TKS::Events::Event<TKS::FlappyPig::PLAYER_STATE> _playerStateChangedEvent;
+        TKS::Events::Event<FP::GAME_STATE> _gameStateChangedEvent;
+        TKS::Events::Event<FP::PLAYER_STATE> _playerStateChangedEvent;
 
-        TKS::Events::EventHandler<TKS::FlappyPig::GAME_STATE> _onGameStateChanged;
-        TKS::Events::EventHandler<TKS::FlappyPig::PLAYER_STATE> _onPlayerStateChanged;
+        TKS::Events::EventHandler<FP::GAME_STATE> _onGameStateChanged;
+        TKS::Events::EventHandler<FP::PLAYER_STATE> _onPlayerStateChanged;
 
-        TKS::FlappyPig::GAME_STATE _gameState{TKS::FlappyPig::GAME_STATE::UNSET};
-        TKS::FlappyPig::PLAYER_STATE _playerState{TKS::FlappyPig::PLAYER_STATE::UNSET};
+        FP::GAME_STATE _gameState{FP::GAME_STATE::UNSET};
+        FP::PLAYER_STATE _playerState{FP::PLAYER_STATE::UNSET};
     };
-} // namespace TKS::FlappyPig
+} // namespace FP

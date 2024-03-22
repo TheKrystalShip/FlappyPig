@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 
-namespace TKS::FlappyPig
+namespace FP
 {
     class PlayerHitbox : public sf::Sprite
     {
@@ -28,14 +28,14 @@ namespace TKS::FlappyPig
         void setLives(const int lives);
         void loseLife();
         void gainLife();
-        TKS::FlappyPig::PlayerHitbox &getSprite();
+        FP::PlayerHitbox &getSprite();
 
     private:
         int _widthInPx;
         int _heightInPx;
         int _lives;
         float _velocityY;
-        TKS::FlappyPig::PlayerHitbox _sprite;
+        FP::PlayerHitbox _sprite;
         virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
     };
-} // namespace TKS::FlappyPig
+} // namespace FP

@@ -3,17 +3,13 @@
 
 #include <SFML/Graphics.hpp>
 
-#include <iostream>
-
 int main()
 {
-    sf::RenderWindow window(
-        sf::VideoMode(TKS::FlappyPig::W_WIDTH, TKS::FlappyPig::W_HEIGHT),
-        TKS::FlappyPig::NAME);
+    sf::RenderWindow window(sf::VideoMode(FP::W_WIDTH, FP::W_HEIGHT), FP::NAME);
 
-    window.setFramerateLimit(TKS::FlappyPig::FPS);
+    window.setFramerateLimit(FP::FPS);
 
-    TKS::FlappyPig::GameDirector director;
+    FP::GameDirector director;
 
     sf::Clock clock;
 
@@ -84,7 +80,7 @@ int main()
 
         switch (director.getGameState())
         {
-        case TKS::FlappyPig::GAME_STATE::START:
+        case FP::GAME_STATE::START:
 
             // Show start screen
             window.clear(sf::Color::Cyan);
@@ -94,7 +90,7 @@ int main()
             window.display();
 
             break;
-        case TKS::FlappyPig::GAME_STATE::RUNNING:
+        case FP::GAME_STATE::RUNNING:
 
             // Show game running screen
             window.clear(sf::Color::Cyan);
@@ -109,7 +105,7 @@ int main()
             window.display();
 
             break;
-        case TKS::FlappyPig::GAME_STATE::PAUSED:
+        case FP::GAME_STATE::PAUSED:
 
             // Show pause screen, keep everything on display
             // but stop the director.update(); cycle
@@ -125,7 +121,7 @@ int main()
             window.display();
 
             break;
-        case TKS::FlappyPig::GAME_STATE::DEATH:
+        case FP::GAME_STATE::DEATH:
 
             // Show death screen
             window.clear(sf::Color::Cyan);

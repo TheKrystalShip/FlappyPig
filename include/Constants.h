@@ -2,17 +2,17 @@
 
 #include <string>
 
-namespace TKS::FlappyPig
+namespace FP
 {
     const std::string NAME = "Flappy Pig!";
-    constexpr int W_WIDTH = 480;
-    constexpr int W_HEIGHT = 640;
-    constexpr int FPS = 60;
+    constexpr float W_WIDTH = 480.f;
+    constexpr float W_HEIGHT = 640.f;
+    constexpr float FPS = 60.f;
     constexpr float GRAVITY = 0.8f;
     constexpr float PIPE_VELOCITY = -5.f;
     constexpr float PIPE_SPAWN_RATE_F = 1500000.f;
     constexpr float DEATH_SCREEN_TIMEOUT_S = 1.f;
-    constexpr int PLAYER_SAFE_ZONE = 128;
+    constexpr float PLAYER_SAFE_ZONE = 128.f;
 
     // OS Specific paths
     #if _WIN32
@@ -31,9 +31,9 @@ namespace TKS::FlappyPig
     const std::string AUDIO_BOOM_PATH = "assets" + PATH_SEPARATOR + "boom.wav";
     const std::string AUDIO_BACKGROUND_PATH = "assets" + PATH_SEPARATOR + "background.wav";
 
-} // namespace TKS::FlappyPig
+} // namespace FP
 
-namespace TKS::FlappyPig
+namespace FP
 {
     enum class GAME_STATE
     {
@@ -50,4 +50,4 @@ namespace TKS::FlappyPig
         ALIVE,
         DEAD
     };
-} // namespace TKS::FlappyPig
+} // namespace FP

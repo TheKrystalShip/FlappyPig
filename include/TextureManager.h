@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 
-namespace TKS::FlappyPig
+namespace FP
 {
     class TextureManager
     {
@@ -14,8 +14,8 @@ namespace TKS::FlappyPig
 
     private:
         TextureManager();
-        inline static sf::Texture _playerTexture;
-        inline static sf::Texture _cloudTexture;
-        inline static sf::Texture _pipeTexture;
+        static sf::Texture _playerTexture;
+        static sf::Texture _cloudTexture;
+        static sf::Texture _pipeTexture;
     };
-} // namespace TKS::FlappyPig
+}

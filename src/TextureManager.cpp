@@ -1,28 +1,35 @@
 #include "TextureManager.h"
 #include "Constants.h"
 
-void TKS::FlappyPig::TextureManager::init()
+namespace FP
 {
-    _playerTexture.loadFromFile(TKS::FlappyPig::TEXTURE_PLAYER_PATH);
-    _cloudTexture.loadFromFile(TKS::FlappyPig::TEXTURE_CLOUD_PATH);
-    _pipeTexture.loadFromFile(TKS::FlappyPig::TEXTURE_PIPE_PATH);
-}
+    sf::Texture TextureManager::_playerTexture;
+    sf::Texture TextureManager::_cloudTexture;
+    sf::Texture TextureManager::_pipeTexture;
 
-sf::Texture &TKS::FlappyPig::TextureManager::getPlayerTexture()
-{
-    return _playerTexture;
-}
+    void TextureManager::init()
+    {
+        _playerTexture.loadFromFile(FP::TEXTURE_PLAYER_PATH);
+        _cloudTexture.loadFromFile(FP::TEXTURE_CLOUD_PATH);
+        _pipeTexture.loadFromFile(FP::TEXTURE_PIPE_PATH);
+    }
 
-sf::Texture &TKS::FlappyPig::TextureManager::getCloudTexture()
-{
-    return _cloudTexture;
-}
+    sf::Texture &TextureManager::getPlayerTexture()
+    {
+        return _playerTexture;
+    }
 
-sf::Texture &TKS::FlappyPig::TextureManager::getPipeTexture()
-{
-    return _pipeTexture;
-}
+    sf::Texture &TextureManager::getCloudTexture()
+    {
+        return _cloudTexture;
+    }
 
-TKS::FlappyPig::TextureManager::TextureManager()
-{
+    sf::Texture &TextureManager::getPipeTexture()
+    {
+        return _pipeTexture;
+    }
+
+    TextureManager::TextureManager()
+    {
+    }
 }

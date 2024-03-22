@@ -7,25 +7,25 @@
       "request": "launch",
       "args": [],
       "stopAtEntry": false,
-      "cwd": "${workspaceFolder}",
+      "cwd": "${workspaceFolder}/bin",
       "environment": [],
       "externalConsole": false,
       "linux": {
         "MIMode": "gdb",
         "miDebuggerPath": "gdb",
-        "program": "${workspaceFolder}/output/FlappyPig"
+        "program": "${workspaceFolder}/bin/FlappyPig"
       },
       "osx": {
         "MIMode": "lldb",
         "miDebuggerPath": "lldb-mi",
-        "program": "${workspaceFolder}/output/FlappyPig"
+        "program": "${workspaceFolder}/bin/FlappyPig"
       },
       "windows": {
         "MIMode": "gdb",
         "miDebuggerPath": "gdb.exe",
-        "program": "${workspaceFolder}/output/FlappyPig.exe"
+        "program": "${workspaceFolder}/bin/FlappyPig.exe"
       },
-      "preLaunchTask": "build"
+      "preLaunchTask": "CMake: build"
     }
   ]
 }

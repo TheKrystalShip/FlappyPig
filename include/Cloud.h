@@ -5,7 +5,7 @@
 #include <vector>
 #include <random>
 
-namespace TKS::FlappyPig
+namespace FP
 {
     class Cloud : public sf::Drawable
     {
@@ -30,13 +30,13 @@ namespace TKS::FlappyPig
     public:
         Clouds();
         // Copy constructor
-        Clouds(const TKS::FlappyPig::Clouds &src);
+        Clouds(const FP::Clouds &src);
         // Move constructor
-        Clouds(TKS::FlappyPig::Clouds &&src);
+        Clouds(FP::Clouds &&src);
         // Copy assignment operator
-        TKS::FlappyPig::Clouds &operator=(const TKS::FlappyPig::Clouds &src);
+        FP::Clouds &operator=(const FP::Clouds &src);
         // Move assignment operator
-        TKS::FlappyPig::Clouds &operator=(TKS::FlappyPig::Clouds &&src);
+        FP::Clouds &operator=(FP::Clouds &&src);
 
         void init();
         void update();
@@ -45,11 +45,11 @@ namespace TKS::FlappyPig
     private:
         std::random_device _randomDevice;
         std::default_random_engine _defaultRandomEngine;
-        std::uniform_int_distribution<int> _randomValueRangeY;
-        std::uniform_int_distribution<int> _randomValueRangeX;
-        std::uniform_int_distribution<int> _randomValueRangeVelocity;
+        std::uniform_real_distribution<float> _randomValueRangeY;
+        std::uniform_real_distribution<float> _randomValueRangeX;
+        std::uniform_real_distribution<float> _randomValueRangeVelocity;
 
-        std::vector<TKS::FlappyPig::Cloud> _clouds;
+        std::vector<FP::Cloud> _clouds;
         virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
     };
-} // namespace TKS::FlappyPig
+} // namespace FP

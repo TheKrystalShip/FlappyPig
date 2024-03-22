@@ -4,7 +4,7 @@
 
 #include <SFML/Graphics.hpp>
 
-namespace TKS::FlappyPig
+namespace FP
 {
     class Hud : public sf::Drawable
     {
@@ -13,12 +13,12 @@ namespace TKS::FlappyPig
         void setPlayerScore(int score);
         void setPlayerLives(int health);
         void setPlayerHighscore(int highscore);
-        void setGameState(TKS::FlappyPig::GAME_STATE &state);
-        void setPlayerState(TKS::FlappyPig::PLAYER_STATE &state);
+        void setGameState(FP::GAME_STATE &state);
+        void setPlayerState(FP::PLAYER_STATE &state);
 
     private:
-        TKS::FlappyPig::GAME_STATE _gameState{TKS::FlappyPig::GAME_STATE::UNSET};
-        TKS::FlappyPig::PLAYER_STATE _playerState{TKS::FlappyPig::PLAYER_STATE::UNSET};
+        FP::GAME_STATE _gameState{FP::GAME_STATE::UNSET};
+        FP::PLAYER_STATE _playerState{FP::PLAYER_STATE::UNSET};
         sf::Font _font;
 
         sf::Text _highscoreText;
@@ -38,4 +38,4 @@ namespace TKS::FlappyPig
 
         virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
     };
-} // namespace TKS::FlappyPig
+} // namespace FP

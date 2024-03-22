@@ -2,7 +2,7 @@
 
 #include <SFML/Audio.hpp>
 
-namespace TKS::FlappyPig
+namespace FP
 {
     class AudioManager
     {
@@ -26,4 +26,4 @@ namespace TKS::FlappyPig
         sf::Sound m_boom;
         sf::Music m_backgroundMusic;
     };
-} // namespace TKS::FlappyPig
+} // namespace FP
